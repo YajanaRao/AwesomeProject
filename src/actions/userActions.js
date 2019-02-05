@@ -1,6 +1,6 @@
-import { FETCH_USERS, NEW_USER, DELETE_USER, LOGIN_USER, UPDATE_PASSWORD, UPDATE_ACCOUNT, PIC_UPDATE } from './types';
+import { FETCH_USERS, NEW_USER, DELETE_USER, LOGIN_USER, UPDATE_PASSWORD, UPDATE_ACCOUNT, PIC_UPDATE, LOGOUT } from './types';
 import { Platform } from 'react-native';
-
+import { AsyncStorage } from 'react-native';
 
 const serverIp = Platform.select({
     ios: 'http://localhost:5000',
@@ -8,16 +8,7 @@ const serverIp = Platform.select({
 })
 
 export const fetchUsers = () => dispatch => {
-    fetch(serverIp+"/api/users/all",
-        {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-        .then(res => res.json())
+        AsyncStorage.getItem('email')
         .then(result => dispatch({
             type: FETCH_USERS,
             payload: result
@@ -29,29 +20,19 @@ export const fetchUsers = () => dispatch => {
 
 }
 
+export const logout = () => dispatch => {
+    AsyncStorage.removeItem('email')
+    AsyncStorage.removeItem('password')
+    dispatch({
+        type: LOGOUT,
+        payload: "success"
+    })
+}
+
 
 export const createUser = postData => dispatch => {
-    fetch(serverIp+"/api/users/create",
-        {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(postData)
-        })
-        .then(res => res.json())
-        .then(result => dispatch({
-            type: NEW_USER,
-            payload: { "status": result.status, "message": result.message },
-            user: result.user
-        }),
-            (error) => dispatch({
-                type: NEW_USER,
-                payload: error
-            })
-        )
+    AsyncStorage.setItem('email', this.state.email);
+    AsyncStorage.setItem('password', this.state.password);
 
 }
 

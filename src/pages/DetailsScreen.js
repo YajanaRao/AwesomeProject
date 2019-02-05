@@ -11,20 +11,13 @@ class DetailsScreen extends Component {
 
     
     render() {
-        const { navigation } = this.props;
-        const details = navigation.getParam('data', 'No data found');
-        const server = navigation.getParam('server','No server address found')
         return (
             <View style={styles.container}>
-                <Image source={{ uri: server + details.file.substring(1) }} style={{ width: 100, height: 100 }} />
-                <Text>{details.name}</Text>   
-                <Text>Rank : {details.details.rank}</Text>
-                <Text>Points Earned : {details.details.total_points_earned}</Text>
-                <Text>Total Yearly Visit : {details.details.total_yearly_visit}</Text>
+               <Text>Details</Text>
                 <Button
-                    title='Check In'
+                    title='Home'
                     style={styles.button}
-                    onPress={()=>this.props.navigation.navigate('Camera')}
+                    onPress={()=>this.props.navigation.navigate('Home')}
                 />
             </View>
         );

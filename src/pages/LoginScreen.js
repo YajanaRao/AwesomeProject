@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { AsyncStorage, View, Text, StyleSheet, TextInput, Button  } from 'react-native';
+import {  View, Text, StyleSheet, TextInput, Button  } from 'react-native';
 import {  StackActions, NavigationActions } from 'react-navigation'; 
+import { KeyboardAvoidingView } from 'react-native';
 
 class LoginScreen extends Component {
     static navigationOptions = {
@@ -12,33 +13,13 @@ class LoginScreen extends Component {
         login: false
     }
 
-    componentDidMount = () => AsyncStorage.getItem('email').then((value) => this.setState({ 'email': value, login: true }))
-
-    shouldComponentUpdate(){
-        if(this.state.login){
-            this.navigateToHome();
-            return true;
-        }else{
-            return false;
-        }
-        
-    }
-
-    handleEmailChange = (text) => {
-        this.setState({
-            email: text
-        });
-    }
     handlePasswordChange = (password) => {
         this.setState({
             password: password
         })
     }
 
-    handleSubmit = () => {
-        // alert('email: ' + this.state.email + ' password: ' + this.state.password); /10.0.3.2:8081
-        AsyncStorage.setItem('email',this.state.email);
-        AsyncStorage.setItem('password',this.state.password);
+    handleSubmit = () => { 
         this.navigateToHome();
     }
 
@@ -53,28 +34,17 @@ class LoginScreen extends Component {
     render() {
 
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView style = { styles.container } behavior = "padding" enabled>
                 <Text style={styles.header}>Login To the application</Text>
                 <TextInput style={styles.input}
-                    underlineColorAndroid="transparent"
-                    placeholder="Email"
-                    placeholderTextColor="#9a73ef"
-                    autoCapitalize="none"
-                    onChangeText={this.handleEmailChange} />
-                <TextInput style={styles.input}
-                    underlineColorAndroid="transparent"
-                    placeholder="Password"
-                    placeholderTextColor="#9a73ef"
-                    autoCapitalize="none"
+                    placeholder="Enter PIN"
+                    placeholderTextColor="#000000"
+                    keyboardType='numeric'
                     secureTextEntry={true}
+                    autoFocus
+                    onSubmitEditing={this.handleSubmit}
                     onChangeText={this.handlePasswordChange} />
-                <Button
-                    onPress={this.handleSubmit}
-                    title="Submit"
-                    color="#841584"
-                    accessibilityLabel="Login"
-                />
-            </View>
+            </ KeyboardAvoidingView>
         );
     }
 }
@@ -86,26 +56,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // backgroundColor: '#222',
     },
-    flex: {
-        flex: 1,
-        flexDirection: 'row'
-    },
     header: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
     },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
     input:{
         margin: 15,
         height: 40,
-        width: 200,
-        borderColor: '#7a42f4',
-        borderWidth: 1
+        width: 300,
+        borderBottomWidth: 2,
+        borderColor: '#000000',
+        // borderWidth: 1
     }
 });
 

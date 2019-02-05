@@ -5,7 +5,8 @@ import {
     LOGIN_USER,
     UPDATE_PASSWORD,
     UPDATE_ACCOUNT,
-    PIC_UPDATE
+    PIC_UPDATE,
+    LOGOUT
 } from '../actions/types';
 
 const initialState = {
@@ -32,6 +33,11 @@ export default function (state = initialState, action) {
                 ...state,
                 user: action.payload.user,
                 result: action.payload.result
+            }
+        case LOGOUT:
+            return {
+                ...state,
+                result: action.payload,
             }
 
         case DELETE_USER:
